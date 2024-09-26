@@ -1,0 +1,20 @@
+meta {
+  name: Post a Nexw Repo
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3001/api/repos
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "euzda--deeded",
+    "name": "new Repo",
+    "url": "http://chez-moi",
+    "isPrivate": 2
+  }
+}
