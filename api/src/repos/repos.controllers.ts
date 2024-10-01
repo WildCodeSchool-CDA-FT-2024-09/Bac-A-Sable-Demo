@@ -1,8 +1,9 @@
 import express, { Response, Request  } from "express";
-import { validate } from "class-validator";
+// import { validate } from "class-validator";
 // import Joi from "joi";
 
 import { Repo } from "./repo.entities";
+import { Status } from "../status/status.entities";
 
 // import repos from "../../data/repos.json";
 // import type { Repo } from "./repo.type";
@@ -30,7 +31,11 @@ const repoControllers = express.Router();
 
 repoControllers.get("/", async (_: any, res: Response) => {
   try {
-    const repos = await Repo.find();
+    const repos = await Repo.find({
+      relations: {
+        status: true
+      }
+    });
     res.status(200).json(repos)
   } catch (error) {
     res.sendStatus(500)
@@ -52,14 +57,13 @@ repoControllers.post("/", async (req: Request, res: Response) => {
     repo.id = req.body.id;
     repo.name = req.body.name;
     repo.url = req.body.url;
-    repo.isPrivate = req.body.isPrivate;
-    const error = await validate(repo)
-    if (error.length > 0) {
-      res.status(422).json(error)
-    } else {
-      await repo.save();
-      res.status(201).json(repo);
-    }
+
+    const status = await Status.findOneOrFail({ where: { id: req.body.isPrivate}})
+    repo.status = status;
+
+    await repo.save();
+    res.status(201).json(repo);
+
   } catch (error) {
     res.sendStatus(500)
   }
