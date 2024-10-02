@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn, ManyToMany } from "typeorm";
 import { IsString } from "class-validator";
 import { Status } from "../status/status.entities";
-import { Lang } from "../langs/lang.entitites";
+import { LangsRepos } from "../langs_repos/langs_repos.entities";
 
 @Entity()
 export class Repo extends BaseEntity {
@@ -21,6 +21,6 @@ export class Repo extends BaseEntity {
   @ManyToOne(() => Status, status => status.id)
   status: Status;
 
-  @ManyToMany(() => Lang, lang => lang.repos)
-  langs?: Lang[]
+  @ManyToMany(() => LangsRepos, langsRepos => langsRepos.repos)
+  langs?: LangsRepos[]
 }

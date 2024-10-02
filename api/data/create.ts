@@ -12,9 +12,9 @@ type Lang = {
   label: string;
 }
 
-type LangBy = { repo_id: string; lang_id: number}
+type LangBy = { repo_id: string; label: string, size: number}
 
-type LangRaw = { node: { name: string}}
+type LangRaw = { size: number, node: { name: string}}
 
 (async() => {
   const raw = await JSON.parse(
@@ -39,7 +39,7 @@ type LangRaw = { node: { name: string}}
         langId++;
       }
       const myLang = langs.find((lg: Lang) => lg.label === lang.node.name) as Lang
-      lang_by_repo.push({ repo_id: rep.id, lang_id: myLang.id})
+      lang_by_repo.push({ repo_id: rep.id, label: myLang.label, size: lang.size})
     })
   })
 

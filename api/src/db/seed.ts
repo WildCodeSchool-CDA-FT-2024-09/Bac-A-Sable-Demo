@@ -9,6 +9,7 @@ import status from "../../data/status.json";
 import { Repo } from "../repos/repo.entities";
 import repos from "../../data/repos.json";
 import lang_by_repo from "../../data/lang_by_repo.json"
+import { LangsRepos } from "../langs_repos/langs_repos.entities";
 (async() => {
   await dataSource.initialize();
   const queryRunner = dataSource.createQueryRunner();
@@ -16,14 +17,14 @@ import lang_by_repo from "../../data/lang_by_repo.json"
 
   try {
     await queryRunner.startTransaction()
-    await queryRunner.query('DELETE FROM lang_repos_repo');
+    await queryRunner.query('DELETE FROM langs_repos');
     await queryRunner.query('DELETE FROM lang');
     await queryRunner.query('DELETE FROM repo');
     await queryRunner.query('DELETE FROM status');
 
-    await queryRunner.query('DELETE FROM sqlite_sequence WHERE name="status" OR name="lang"');
+    await queryRunner.query('DELETE FROM sqlite_sequence WHERE name="status" OR name="lang" OR name="langs_repos"');
 
-    const savedlangs = await Promise.all(
+    const savedLangs = await Promise.all(
       langs.map(async (el) => {
         const lang = new Lang();
         lang.label = el.label;
@@ -32,7 +33,7 @@ import lang_by_repo from "../../data/lang_by_repo.json"
       })
     )
 
-    console.log(savedlangs)
+    console.log(savedLangs)
 
     const savedStatus = await Promise.all(
       status.map(async (el) => {
@@ -55,20 +56,23 @@ import lang_by_repo from "../../data/lang_by_repo.json"
         const status = savedStatus.find((st) => st.id === el.isPrivate) as Status;
         repo.status = status;
 
-        const mylangs = savedlangs.filter((svLg) => {
-          const associatedlang = lang_by_repo.filter(lgbyrep => lgbyrep.repo_id === el.id);
-          const langLabel = langs.filter(lg => associatedlang.some((assolg) => assolg.lang_id === lg.id))
-          return langLabel.some(lgLabel => lgLabel.label === svLg.label)
-        })
-        repo.langs = mylangs;
-
         return await repo.save();
       })
     )
 
     console.log(savedRepos)
 
+    const savedLangsRepos = await Promise.all(
+      lang_by_repo.map(lgByRep => {
+        const langsRepos = new LangsRepos();
+        langsRepos.repos = savedRepos.find(svRepos => svRepos.id === lgByRep.repo_id) as Repo;
+        langsRepos.langs = savedLangs.find(svLangs => svLangs.label === lgByRep.label) as Lang;
+        langsRepos.size = lgByRep.size;
+        return langsRepos.save();
+      })
+    )
 
+    console.log(savedLangsRepos)
 
 
 

@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Repo } from "../repos/repo.entities";
+import { BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { LangsRepos } from "../langs_repos/langs_repos.entities";
 
 @Entity()
 export class Lang extends BaseEntity {
@@ -10,7 +10,6 @@ export class Lang extends BaseEntity {
   @Column()
   label: string;
 
-  @ManyToMany(() => Repo, repo => repo.langs)
-  @JoinTable()
-  repos?: Repo[]
+  @ManyToMany(() => LangsRepos, langsRepo => langsRepo.langs)
+  repos?: LangsRepos[]
 }
