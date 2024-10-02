@@ -56,9 +56,7 @@ import lang_by_repo from "../../data/lang_by_repo.json"
         repo.status = status;
 
         const mylangs = savedlangs.filter((svLg) => {
-          console.log("repoID", el.id)
           const associatedlang = lang_by_repo.filter(lgbyrep => lgbyrep.repo_id === el.id);
-          console.log("A", associatedlang)
           const langLabel = langs.filter(lg => associatedlang.some((assolg) => assolg.lang_id === lg.id))
           return langLabel.some(lgLabel => lgLabel.label === svLg.label)
         })
