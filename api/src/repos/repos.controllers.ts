@@ -4,6 +4,8 @@ import express, { Response, Request  } from "express";
 
 import { Repo } from "./repo.entities";
 import { Status } from "../status/status.entities";
+import { Lang } from "../langs/lang.entitites";
+import { In } from "typeorm";
 
 // import repos from "../../data/repos.json";
 // import type { Repo } from "./repo.type";
@@ -33,11 +35,13 @@ repoControllers.get("/", async (_: any, res: Response) => {
   try {
     const repos = await Repo.find({
       relations: {
-        status: true
+        status: true,
+        langs: true
       }
     });
     res.status(200).json(repos)
   } catch (error) {
+    console.log(error)
     res.sendStatus(500)
   }
 });
@@ -61,10 +65,14 @@ repoControllers.post("/", async (req: Request, res: Response) => {
     const status = await Status.findOneOrFail({ where: { id: req.body.isPrivate}})
     repo.status = status;
 
+    const langs = await Lang.find({ where: { id: In (req.body.langs.map((l: number) => l))}});
+    repo.langs = langs;
+
     await repo.save();
     res.status(201).json(repo);
 
   } catch (error) {
+    console.log(error)
     res.sendStatus(500)
   }
 }); // http://localhost:3001/api/repos/ <=> http://localhost:3001/users/:id/repos/

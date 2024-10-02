@@ -1,0 +1,17 @@
+meta {
+  name: Post Lang
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:3001/api/langs
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "label": "JS"
+  }
+}
