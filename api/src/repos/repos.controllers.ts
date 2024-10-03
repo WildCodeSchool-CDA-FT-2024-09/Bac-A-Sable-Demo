@@ -32,6 +32,7 @@ const repoControllers = express.Router();
 // };
 
 repoControllers.get("/", async (_: any, res: Response) => {
+  console.log("GET REPOS")
   try {
     const repos = await Repo.find({
       relations: {

@@ -12,6 +12,5 @@ export const dataSource = new DataSource({
   type: "sqlite",
   database: `${BACKEND_FILE}`,
   entities: [Repo, Status, Lang],
-  synchronize: true,
-  logging: true
+  synchronize: true
 });
