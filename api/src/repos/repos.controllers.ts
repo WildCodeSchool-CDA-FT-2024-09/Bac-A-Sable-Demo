@@ -1,4 +1,4 @@
-import express, { Response, Request  } from "express";
+import express, { Response, Request } from "express";
 // import { validate } from "class-validator";
 // import Joi from "joi";
 
@@ -32,30 +32,40 @@ const repoControllers = express.Router();
 // };
 
 repoControllers.get("/", async (_: any, res: Response) => {
-  console.log("GET REPOS")
+  console.log("GET REPOS");
   try {
     const repos = await Repo.find({
       relations: {
         status: true,
-        langs: true
-      }
+        langs: true,
+      },
     });
-    res.status(200).json(repos)
+    res.status(200).json(repos);
   } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
+    console.log(error);
+    res.sendStatus(500);
   }
 });
 
-// repoControllers.get("/:id", (req: Request, res: Response) => {
-//   const repo = myRepos.find((rep) => rep.id === req.params.id) as Repo;
+repoControllers.get("/:id", async (req: Request, res: Response) => {
+  console.log("GET REPOS");
+  try {
+    const repos = await Repo.find({
+      where: {
+        id: req.params.id,
+      },
+      relations: {
+        status: true,
+        langs: true,
+      },
+    });
+    res.status(200).json(repos);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
 
-//   if (repo) {
-//     res.status(200).json(repo);
-//   } else {
-//     res.sendStatus(404);
-//   }
-// });
 repoControllers.post("/", async (req: Request, res: Response) => {
   try {
     const repo = new Repo();
@@ -63,21 +73,23 @@ repoControllers.post("/", async (req: Request, res: Response) => {
     repo.name = req.body.name;
     repo.url = req.body.url;
 
-    const status = await Status.findOneOrFail({ where: { id: req.body.isPrivate}})
+    const status = await Status.findOneOrFail({
+      where: { id: req.body.isPrivate },
+    });
     repo.status = status;
 
-    const langs = await Lang.find({ where: { id: In (req.body.langs.map((l: number) => l))}});
+    const langs = await Lang.find({
+      where: { id: In(req.body.langs.map((l: number) => l)) },
+    });
     repo.langs = langs;
 
     await repo.save();
     res.status(201).json(repo);
-
   } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
+    console.log(error);
+    res.sendStatus(500);
   }
 }); // http://localhost:3001/api/repos/ <=> http://localhost:3001/users/:id/repos/
-
 
 // repoControllers.delete("/:id", (req: Request, res: Response) => {
 //   myRepos = myRepos.filter((repo: Repo) => repo.id !== req.params.id);

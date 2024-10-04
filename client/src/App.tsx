@@ -24,7 +24,7 @@ function App() {
   return (
     <main>
       {repos.map((repo: Repo) => (
-        <RepoDard name={repo.name} url={repo.url} />
+        <RepoDard name={repo.name} url={repo.url} id={repo.id} />
       ))}
     </main>
   );
