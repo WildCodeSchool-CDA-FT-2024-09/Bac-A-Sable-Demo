@@ -1,4 +1,4 @@
-import express, { Response, Request  } from "express";
+import express, { Response, Request } from "express";
 // import { validate } from "class-validator";
 // import Joi from "joi";
 
@@ -37,14 +37,14 @@ repoControllers.get("/", async (_: any, res: Response) => {
       relations: {
         status: true,
         langs: {
-          langs: true
-        }
-      }
+          langs: true,
+        },
+      },
     });
-    res.status(200).json(repos)
+    res.status(200).json(repos);
   } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
+    console.error(error);
+    res.sendStatus(500);
   }
 });
 
@@ -64,7 +64,9 @@ repoControllers.post("/", async (req: Request, res: Response) => {
     repo.name = req.body.name;
     repo.url = req.body.url;
 
-    const status = await Status.findOneOrFail({ where: { id: req.body.isPrivate}})
+    const status = await Status.findOneOrFail({
+      where: { id: req.body.isPrivate },
+    });
     repo.status = status;
 
     // const langs = await Lang.find({ where: { id: In (req.body.langs.map((l: number) => l))}});
@@ -72,13 +74,11 @@ repoControllers.post("/", async (req: Request, res: Response) => {
 
     await repo.save();
     res.status(201).json(repo);
-
   } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
+    console.error(error);
+    res.sendStatus(500);
   }
 }); // http://localhost:3001/api/repos/ <=> http://localhost:3001/users/:id/repos/
-
 
 // repoControllers.delete("/:id", (req: Request, res: Response) => {
 //   myRepos = myRepos.filter((repo: Repo) => repo.id !== req.params.id);

@@ -1,5 +1,12 @@
 import "reflect-metadata";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn, ManyToMany } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  OneToMany,
+} from "typeorm";
 import { IsString } from "class-validator";
 import { Status } from "../status/status.entities";
 import { LangsRepos } from "../langs_repos/langs_repos.entities";
@@ -18,9 +25,9 @@ export class Repo extends BaseEntity {
   @IsString()
   url: string;
 
-  @ManyToOne(() => Status, status => status.id)
+  @ManyToOne(() => Status, (status) => status.id)
   status: Status;
 
-  @ManyToMany(() => LangsRepos, langsRepos => langsRepos.repos)
-  langs?: LangsRepos[]
+  @OneToMany(() => LangsRepos, (langsRepos) => langsRepos.repos)
+  langs?: LangsRepos[];
 }

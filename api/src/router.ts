@@ -7,12 +7,11 @@ import langControllers from "./langs/lang.controllers";
 const router = express.Router();
 
 router.get("/", (_, res: Response) => {
-  console.log(res)
-  res.send("Hello wilders")
+  res.send("Hello wilders");
 });
 
-router.use('/repos', repoControllers);
-router.use('/status', statusControllers);
-router.use('/langs', langControllers);
+router.use("/repos", repoControllers);
+router.use("/status", statusControllers);
+router.use("/langs", langControllers);
 
 export default router;
