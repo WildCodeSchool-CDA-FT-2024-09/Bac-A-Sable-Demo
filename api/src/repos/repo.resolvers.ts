@@ -1,6 +1,8 @@
 import { Repo, LightRepo } from "./repo.entities";
 import { Arg, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
 
+import { Status } from "../status/status.entities";
+
 /**
  * type Repo {
  *  id: string
@@ -14,6 +16,12 @@ class RepoInput implements Partial<Repo> {
 
   @Field()
   url: string;
+
+  @Field()
+  name: string;
+
+  @Field()
+  isPrivate: number;
 }
 
 @Resolver(Repo)
@@ -43,14 +51,27 @@ export default class RepoResolver {
     //const newRepo: RepoInput = req.body.data
     // fonction de validation
     console.info(newRepo);
-    const repo = await Repo.findOneOrFail({
-      where: { id: "R_kgDOM2SnhA" },
+
+    const repo = new Repo();
+    repo.id = newRepo.id;
+    repo.name = newRepo.name;
+    repo.url = newRepo.url;
+
+    const status = await Status.findOneOrFail({
+      where: { id: +newRepo.isPrivate },
+    });
+    repo.status = status;
+
+    await repo.save();
+    console.log("repo", repo);
+    const myRepo = await Repo.findOneOrFail({
+      where: { id: newRepo.id },
       relations: {
         langs: true,
         status: true,
       },
     });
-    console.log(repo);
-    return repo;
+    console.log("myRepo", myRepo);
+    return myRepo;
   }
 }
