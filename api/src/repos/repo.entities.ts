@@ -1,6 +1,13 @@
 import "reflect-metadata";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn, ManyToMany } from "typeorm";
-import { IsString } from "class-validator";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  ManyToMany,
+} from "typeorm";
+import { IsBoolean, IsString } from "class-validator";
 import { Status } from "../status/status.entities";
 import { Lang } from "../langs/lang.entitites";
 
@@ -18,9 +25,13 @@ export class Repo extends BaseEntity {
   @IsString()
   url: string;
 
-  @ManyToOne(() => Status, status => status.id)
+  @Column({ default: () => false })
+  @IsBoolean()
+  isFavorite: boolean;
+
+  @ManyToOne(() => Status, (status) => status.id)
   status: Status;
 
-  @ManyToMany(() => Lang, lang => lang.repos)
-  langs?: Lang[]
+  @ManyToMany(() => Lang, (lang) => lang.repos)
+  langs?: Lang[];
 }
