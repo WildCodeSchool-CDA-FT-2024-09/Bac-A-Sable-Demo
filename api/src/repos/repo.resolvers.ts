@@ -47,7 +47,7 @@ export default class RepoResolver {
   }
 
   @Mutation(() => Repo)
-  async createNewRepo(@Arg("data") newRepo: RepoInput) {
+  async createNewRepo(@Arg("toto") newRepo: RepoInput) {
     //const newRepo: RepoInput = req.body.data
     // fonction de validation
     console.info(newRepo);

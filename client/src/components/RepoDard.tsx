@@ -1,11 +1,12 @@
 import type { Repo } from "../types/RepoType";
 import { Link } from "react-router-dom";
 
-function RepoDard({ name, url, id }: Repo) {
+function RepoDard({ name, url, id, isFavorite }: Repo) {
   return (
     <>
       <h2>{name}</h2>
       <h3 className="card">{url}</h3>
+      <p>{isFavorite ? "Favory" : "Non Favory"}</p>
       <Link to={`/detail/${id}`}>Plus d'info</Link>
     </>
   );
