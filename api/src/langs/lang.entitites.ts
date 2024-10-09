@@ -25,3 +25,5 @@ export class Lang extends BaseEntity {
   @JoinTable()
   repos?: Repo[];
 }
+
+
