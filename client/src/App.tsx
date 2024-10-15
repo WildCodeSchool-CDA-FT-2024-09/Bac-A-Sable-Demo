@@ -4,21 +4,10 @@ import "./App.css";
 import type { Repo } from "./types/RepoType";
 // import data from "./assets/data.json";
 import RepoDard from "./components/RepoDard";
-import { useQuery, gql } from "@apollo/client";
-
-const GET_REPOS = gql`
-  query Fullrepos {
-    fullrepos {
-      id
-      name
-      url
-      isFavorite
-    }
-  }
-`;
+import { useFullreposQuery } from "./generated/graphql-types";
 
 function App() {
-  const { loading, error, data, refetch } = useQuery(GET_REPOS);
+  const { loading, error, data, refetch } = useFullreposQuery();
   // const [repos, setRepos] = useState<Repo[]>([]);
 
   // useEffect(() => {
