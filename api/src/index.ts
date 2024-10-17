@@ -75,5 +75,6 @@ import RepoResolver from "./repos/repo.resolvers";
     listen: { port: 4000 },
   });
 
+  console.log("Hello");
   console.log(`🚀  Server ready at: ${url}`);
 })();
