@@ -10,7 +10,18 @@ import {
 import { IsBoolean, IsString } from "class-validator";
 import { Status } from "../status/status.entities";
 import { Lang } from "../langs/lang.entitites";
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType, registerEnumType } from "type-graphql";
+
+enum Difficulty {
+  EASY = "easy",
+  MEDIUM = "medium",
+  HARD = "hard",
+}
+
+registerEnumType(Difficulty, {
+  name: "Difficulty", // Mandatory
+  description: "The basic Difficulties", // Optional
+});
 
 @ObjectType()
 @Entity()
@@ -42,6 +53,9 @@ export class Repo extends BaseEntity {
   @Field(() => [Lang])
   @ManyToMany(() => Lang, (lang) => lang.repos)
   langs?: Lang[];
+
+  @Field(() => Difficulty)
+  difficulty: Difficulty;
 }
 
 @ObjectType()

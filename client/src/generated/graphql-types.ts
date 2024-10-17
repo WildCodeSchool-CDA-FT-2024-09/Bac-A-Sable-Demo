@@ -17,6 +17,13 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+/** The basic Difficulties */
+export enum Difficulty {
+  Easy = 'EASY',
+  Hard = 'HARD',
+  Medium = 'MEDIUM'
+}
+
 export type Lang = {
   __typename?: 'Lang';
   id: Scalars['Float']['output'];
@@ -49,6 +56,7 @@ export type Query = {
 
 export type Repo = {
   __typename?: 'Repo';
+  difficulty: Difficulty;
   id: Scalars['ID']['output'];
   isFavorite: Scalars['Boolean']['output'];
   langs: Array<Lang>;
