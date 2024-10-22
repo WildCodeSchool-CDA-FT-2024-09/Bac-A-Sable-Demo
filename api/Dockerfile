@@ -6,8 +6,13 @@ COPY *.json ./
 
 RUN npm install
 
-COPY . .
+COPY src src
 
-EXPOSE 5173
+COPY data data
+
+RUN npm run seed
+
+EXPOSE 4000
+
 
 CMD ["npm", "run", "dev"]
