@@ -9,7 +9,7 @@
     "create": "ts-node-dev ./data/create.ts",
     "dev": "ts-node-dev ./src/index.ts",
     "seed": "ts-node-dev ./src/db/seed.ts",
-    "full": "gh repo list jujuck --json  id,name,url,languages,isPrivate > ./data/raw.json && ts-node-dev ./src/db/seed.ts && ts-node-dev ./src/index.ts"
+    "full": "ts-node-dev ./src/db/seed.ts && ts-node-dev ./src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +29,7 @@
     "graphql": "^16.9.0",
     "graphql-scalars": "^1.23.0",
     "joi": "^17.13.3",
+    "pg": "^8.13.0",
     "reflect-metadata": "^0.2.2",
     "sqlite3": "^5.1.7",
     "type-graphql": "^2.0.0-rc.2",

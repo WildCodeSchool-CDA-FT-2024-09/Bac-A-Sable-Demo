@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 // import { dataSource } from "./db/client";
 // import "reflect-metadata";
 dotenv.config();
-// const { PORT } = process.env;
+const { PORT } = process.env;
 
 // const app = express();
 
@@ -72,8 +72,9 @@ import RepoResolver from "./repos/repo.resolvers";
   });
 
   const { url } = await startStandaloneServer(server, {
-    listen: { port: Number(process.env.PORT) },
+    listen: { port: Number(PORT) },
   });
 
+  console.info("Docker compose is watching");
   console.log(`🚀  Server ready at: ${url}`);
 })();
