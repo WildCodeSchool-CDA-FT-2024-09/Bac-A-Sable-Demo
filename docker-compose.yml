@@ -21,8 +21,6 @@ services:
 
   api:
     build: ./api
-    ports:
-      - 4000:4000
     command: npm run full
     restart: always
     env_file: .env
@@ -36,9 +34,17 @@ services:
     build: ./client
     command: npm run dev
     restart: always
-    ports:
-      - 5173:5173
     environment:
-      - VITE_API_URL=http://localhost:4000
+      - VITE_API_URL=http://localhost:5000/graph
     volumes:
       - ./client:/app/
+
+  gateway:
+    image: nginx
+    ports:
+      - 5000:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api
+      - client
