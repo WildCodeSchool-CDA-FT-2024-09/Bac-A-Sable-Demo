@@ -33,6 +33,7 @@ import "reflect-metadata";
 
 // import repos from "../data/repos.json";
 import RepoResolver from "./repos/repo.resolvers";
+import UserResolver from "./user/user.resolvers";
 
 // const typeDefs = `#graphql
 //   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
@@ -64,7 +65,7 @@ import RepoResolver from "./repos/repo.resolvers";
 (async () => {
   await dataSource.initialize();
   const schema = await buildSchema({
-    resolvers: [RepoResolver],
+    resolvers: [RepoResolver, UserResolver],
   });
 
   const server = new ApolloServer({
@@ -73,6 +74,10 @@ import RepoResolver from "./repos/repo.resolvers";
 
   const { url } = await startStandaloneServer(server, {
     listen: { port: Number(PORT) },
+    context: async ({ req, res }) => {
+      console.info(req);
+      return { res };
+    },
   });
 
   console.info("Docker compose is watching");

@@ -4,10 +4,14 @@ import "./App.css";
 import type { Repo } from "./types/RepoType";
 // import data from "./assets/data.json";
 import RepoDard from "./components/RepoDard";
-import { useFullreposQuery } from "./generated/graphql-types";
+import {
+  useFullreposQuery,
+  useLoginLazyQuery,
+} from "./generated/graphql-types";
 
 function App() {
   const { loading, error, data, refetch } = useFullreposQuery();
+  const [login] = useLoginLazyQuery();
   // const [repos, setRepos] = useState<Repo[]>([]);
 
   // useEffect(() => {
@@ -23,12 +27,25 @@ function App() {
   //   fetchRepos();
   // }, []);
 
+  const handleLogin = async () => {
+    // useQuery...
+    await login({
+      variables: {
+        email: "test@test.com",
+        password: "argon2hash",
+      },
+    });
+  };
+
   if (loading) return <h1>Loading ...</h1>;
   if (error) return <p>Error</p>;
 
   return (
     <main>
       <h1>MON TITRE</h1>
+      <button type="button" onClick={handleLogin}>
+        LOGIN
+      </button>
       {data.fullrepos.map((repo: Repo) => (
         <RepoDard
           name={repo.name}

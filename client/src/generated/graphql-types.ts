@@ -17,13 +17,6 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-/** The basic Difficulties */
-export enum Difficulty {
-  Easy = 'EASY',
-  Hard = 'HARD',
-  Medium = 'MEDIUM'
-}
-
 export type Lang = {
   __typename?: 'Lang';
   id: Scalars['Float']['output'];
@@ -33,7 +26,6 @@ export type Lang = {
 export type LightRepo = {
   __typename?: 'LightRepo';
   id: Scalars['ID']['output'];
-  isFavorite: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
   url: Scalars['String']['output'];
 };
@@ -52,11 +44,17 @@ export type Query = {
   __typename?: 'Query';
   fullrepos: Array<Repo>;
   lightrepos: Array<LightRepo>;
+  login: Scalars['Boolean']['output'];
+};
+
+
+export type QueryLoginArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type Repo = {
   __typename?: 'Repo';
-  difficulty: Difficulty;
   id: Scalars['ID']['output'];
   isFavorite: Scalars['Boolean']['output'];
   langs: Array<Lang>;
@@ -82,6 +80,14 @@ export type FullreposQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FullreposQuery = { __typename?: 'Query', fullrepos: Array<{ __typename?: 'Repo', id: string, name: string, url: string, isFavorite: boolean }> };
+
+export type LoginQueryVariables = Exact<{
+  password: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+}>;
+
+
+export type LoginQuery = { __typename?: 'Query', login: boolean };
 
 
 export const FullreposDocument = gql`
@@ -126,3 +132,42 @@ export type FullreposQueryHookResult = ReturnType<typeof useFullreposQuery>;
 export type FullreposLazyQueryHookResult = ReturnType<typeof useFullreposLazyQuery>;
 export type FullreposSuspenseQueryHookResult = ReturnType<typeof useFullreposSuspenseQuery>;
 export type FullreposQueryResult = Apollo.QueryResult<FullreposQuery, FullreposQueryVariables>;
+export const LoginDocument = gql`
+    query Login($password: String!, $email: String!) {
+  login(password: $password, email: $email)
+}
+    `;
+
+/**
+ * __useLoginQuery__
+ *
+ * To run a query within a React component, call `useLoginQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLoginQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLoginQuery({
+ *   variables: {
+ *      password: // value for 'password'
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useLoginQuery(baseOptions: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables> & ({ variables: LoginQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+      }
+export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+        }
+export function useLoginSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+        }
+export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
+export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
+export type LoginSuspenseQueryHookResult = ReturnType<typeof useLoginSuspenseQuery>;
+export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
