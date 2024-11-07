@@ -28,7 +28,7 @@ export default class UserResolver {
       // 2ème étape, vérifier le hash du password
       if (me.password === password) {
         const token = jwt.sign(
-          { email: me.email, name: "julien" },
+          { email: me.email, name: "julien", role: "admin" },
           AUTH_SECRET_KEY as string
         );
         context.res.setHeader(

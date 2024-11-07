@@ -1,5 +1,13 @@
 import { Repo, LightRepo } from "./repo.entities";
-import { Arg, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Authorized,
+  Field,
+  InputType,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 
 import { Status } from "../status/status.entities";
 
@@ -27,6 +35,8 @@ class RepoInput implements Partial<Repo> {
 @Resolver(Repo)
 export default class RepoResolver {
   // Methode GET pour tous les repos
+
+  @Authorized("admin")
   @Query(() => [Repo])
   async fullrepos() {
     const repos = await Repo.find({
@@ -35,11 +45,10 @@ export default class RepoResolver {
         langs: true,
       },
     });
-    console.log("TOTOT");
-    console.info(repos);
     return repos;
   }
 
+  @Authorized()
   @Query(() => [LightRepo])
   async lightrepos() {
     const repos = await Repo.find();
