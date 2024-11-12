@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo 'TODO install husky and run test'",
     "fetch": "gh repo list jujuck --json  id,name,url,languages,isPrivate > ./data/raw.json",
     "create": "ts-node-dev ./data/create.ts",
     "dev": "ts-node-dev ./src/index.ts",

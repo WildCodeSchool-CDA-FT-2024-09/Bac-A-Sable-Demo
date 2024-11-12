@@ -75,6 +75,9 @@ import UserResolver from "./user/user.resolvers";
   const schema = await buildSchema({
     resolvers: [RepoResolver, UserResolver],
     authChecker: ({ context }, roles): boolean => {
+      console.log(context.cookie);
+      console.log("roles", roles);
+
       // Si utilisateur admin et Authorized("admin")
       if (roles.length > 0)
         return roles.some((role) => context.cookie.role === role);
