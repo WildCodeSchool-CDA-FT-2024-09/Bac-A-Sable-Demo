@@ -1,0 +1,11 @@
+meta {
+  name: Get all repos
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:3001/api/repos
+  body: json
+  auth: none
+}
