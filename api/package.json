@@ -1,0 +1,42 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'TODO install husky and run test'",
+    "fetch": "gh repo list jujuck --json  id,name,url,languages,isPrivate > ./data/raw.json",
+    "create": "ts-node-dev ./data/create.ts",
+    "dev": "ts-node-dev ./src/index.ts",
+    "seed": "ts-node-dev ./src/db/seed.ts",
+    "full": "ts-node-dev ./src/db/seed.ts && ts-node-dev ./src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.7.0",
+    "@types/set-cookie-parser": "^2.4.10",
+    "ts-node-dev": "^2.0.0"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.11.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "class-validator": "^0.14.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "graphql": "^16.9.0",
+    "graphql-scalars": "^1.23.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.0",
+    "reflect-metadata": "^0.2.2",
+    "set-cookie-parser": "^2.7.1",
+    "sqlite3": "^5.1.7",
+    "type-graphql": "^2.0.0-rc.2",
+    "typeorm": "^0.3.20"
+  }
+}
