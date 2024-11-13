@@ -35,13 +35,11 @@ import * as dotenv from "dotenv";
 dotenv.config();
 const { AUTH_SECRET_KEY, PORT } = process.env;
 
-import { buildSchema } from "type-graphql";
 import { dataSource } from "./db/client";
 import "reflect-metadata";
 
 // import repos from "../data/repos.json";
-import RepoResolver from "./repos/repo.resolvers";
-import UserResolver from "./user/user.resolvers";
+import getSchema from "./schema";
 
 // const typeDefs = `#graphql
 //   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
@@ -72,23 +70,7 @@ import UserResolver from "./user/user.resolvers";
 
 (async () => {
   await dataSource.initialize();
-  const schema = await buildSchema({
-    resolvers: [RepoResolver, UserResolver],
-    authChecker: ({ context }, roles): boolean => {
-      console.log(context.cookie);
-      console.log("roles", roles);
-
-      // Si utilisateur admin et Authorized("admin")
-      if (roles.length > 0)
-        return roles.some((role) => context.cookie.role === role);
-
-      // Si utilisateur connect et Authorized()
-      if (context.cookie) return true;
-
-      // Default
-      return false;
-    },
-  });
+  const schema = await getSchema();
 
   const server = new ApolloServer({
     schema,
@@ -97,8 +79,6 @@ import UserResolver from "./user/user.resolvers";
   const { url } = await startStandaloneServer(server, {
     listen: { port: Number(PORT) },
     context: async ({ req, res }) => {
-      console.info(req.headers.cookie);
-
       if (!req.headers.cookie) return { res };
 
       const { cdatokenexample } = setCookie.parse(
