@@ -4,8 +4,8 @@ stop:
 clean:
 	docker system prune -af
 
-loc:
-	docker compose -f docker-compose.test.yml up --build -d
+test:
+	docker compose -f docker-compose.test.yml up --build
 
 dev:
 	docker compose -f docker-compose.dev.yml up --build -d
