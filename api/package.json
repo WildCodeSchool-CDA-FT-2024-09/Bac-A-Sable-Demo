@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --config ./jest.config.ts",
     "fetch": "gh repo list jujuck --json  id,name,url,languages,isPrivate > ./data/raw.json",
     "create": "ts-node-dev ./data/create.ts",
     "dev": "ts-node-dev ./src/index.ts",
@@ -17,8 +17,12 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.7.0",
     "@types/set-cookie-parser": "^2.4.10",
+    "graphql-tag": "^2.12.6",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
     "ts-node-dev": "^2.0.0"
   },
   "dependencies": {

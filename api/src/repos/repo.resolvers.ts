@@ -36,7 +36,6 @@ class RepoInput implements Partial<Repo> {
 export default class RepoResolver {
   // Methode GET pour tous les repos
 
-  @Authorized("admin")
   @Query(() => [Repo])
   async fullrepos() {
     const repos = await Repo.find({
@@ -56,6 +55,7 @@ export default class RepoResolver {
     return repos;
   }
 
+  @Authorized("admin")
   @Mutation(() => Repo)
   async createNewRepo(@Arg("toto") newRepo: RepoInput) {
     //const newRepo: RepoInput = req.body.data
