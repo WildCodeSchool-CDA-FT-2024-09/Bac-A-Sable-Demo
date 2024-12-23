@@ -32,7 +32,6 @@ services:
 
   prod-nginx:
     image: nginx:1.21.3
-    name: prod-nginx
     depends_on:
       - prod-api
       - prod-client
