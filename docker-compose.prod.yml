@@ -11,7 +11,7 @@ services:
       timeout: 5s
       retries: 5
 
-  server:
+  api:
     # build: ./server
     # To replace with the correct path of your server image
     image: julienrichardwcs/bac-a-sable-demo-api
