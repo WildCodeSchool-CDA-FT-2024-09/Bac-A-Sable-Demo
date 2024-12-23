@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres
-    env_file: .env-prod
+    env_file: .env
     restart: always
     volumes:
       - web-client-build:/web-client-build
@@ -11,7 +11,7 @@ services:
       timeout: 5s
       retries: 5
 
-  prod-api:
+  api:
     # build: ./server
     # To replace with the correct path of your server image
     image: julienrichardwcs/bac-a-sable-demo-api
@@ -22,7 +22,7 @@ services:
     environment:
       - PORT=4000
 
-  prod-client:
+  client:
     # build: ./client
     # To replace with the correct path of your client image
     image: julienrichardwcs/bac-a-sable-demo-client
@@ -30,14 +30,14 @@ services:
     volumes:
       - web-client-build:/app/build
 
-  prod-nginx:
+  nginx:
     image: nginx:1.21.3
     depends_on:
-      - prod-api
-      - prod-client
+      - api
+      - client
     restart: always
     ports:
-      - 8002:80
+      - 8001:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - web-client-build:/web-client-build
