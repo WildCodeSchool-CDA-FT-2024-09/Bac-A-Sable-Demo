@@ -100,6 +100,6 @@ import getSchema from "./schema";
     },
   });
 
-  console.info("Docker compose is watching");
+  console.info("Docker compose is watching for sure");
   console.log(`🚀  Server ready at: ${url}`);
 })();
