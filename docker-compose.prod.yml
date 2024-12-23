@@ -16,6 +16,7 @@ services:
     # To replace with the correct path of your server image
     image: julienrichardwcs/bac-a-sable-demo-api
     command: sh -c "npm run full"
+    env_file: .env
     expose:
       - 4000
     environment:
