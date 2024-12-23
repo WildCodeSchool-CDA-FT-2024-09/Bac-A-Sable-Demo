@@ -9,7 +9,6 @@ const me = {
   email: "test@test.com",
   password: "argon2hash",
 };
-console.log(me);
 
 @Resolver()
 export default class UserResolver {
@@ -21,8 +20,6 @@ export default class UserResolver {
     @Ctx()
     context: { res: { setHeader: (name: string, value: string) => void } }
   ) {
-    console.info(email, password);
-
     // 1ère étape, à partir de l'email, vérifier si jai un user... user.find..
     if (me.email === email) {
       // 2ème étape, vérifier le hash du password
