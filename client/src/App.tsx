@@ -36,27 +36,32 @@ function App() {
       },
     });
   };
+  console.log("Hello");
 
   if (loading) return <h1>Loading ...</h1>;
   if (error) return <p>Error</p>;
 
-  return (
-    <main>
-      <h1>MON TITRE</h1>
-      <button type="button" onClick={handleLogin}>
-        LOGIN
-      </button>
-      {data.fullrepos.map((repo: Repo) => (
-        <RepoDard
-          name={repo.name}
-          url={repo.url}
-          id={repo.id}
-          isFavorite={repo.isFavorite}
-        />
-      ))}
-      <button onClick={refetch}>Rafraichir</button>
-    </main>
-  );
+  console.log(data);
+  if (data) {
+    return (
+      <main>
+        <h1>MON TITRE</h1>
+        <button type="button" onClick={handleLogin}>
+          LOGIN
+        </button>
+        {/**data.fullrepos.map((repo: Repo) => (
+          <RepoDard
+            name={repo.name}
+            url={repo.url}
+            id={repo.id}
+            isFavorite={repo.isFavorite}
+            langs={repo.langs}
+          />
+        ))*/}
+        <button type="button">Rafraichir</button>
+      </main>
+    );
+  }
 }
 
 export default App;
