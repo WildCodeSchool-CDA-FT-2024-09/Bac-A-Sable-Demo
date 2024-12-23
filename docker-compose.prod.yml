@@ -15,11 +15,10 @@ services:
     # build: ./server
     # To replace with the correct path of your server image
     image: julienrichardwcs/bac-a-sable-demo-api
-    command: sh -c "npm run dev"
+    command: sh -c "npm run full"
     expose:
       - 4000
     environment:
-      - NODE_ENV=production
       - PORT=4000
 
   client:
@@ -29,13 +28,11 @@ services:
     command: sh -c "npm run dev"
     volumes:
       - web-client-build:/app/build
-    environment:
-      - NODE_ENV=production
 
   nginx:
     image: nginx:1.21.3
     depends_on:
-      - server
+      - api
       - client
     restart: always
     ports:
