@@ -5,7 +5,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "./services/connexion.ts";
 
 import App from "./App.tsx";
-import Detail from "./pages/Detail.tsx";
+// import Detail from "./pages/Detail.tsx";
 
 // import connexion from "./services/connexion.ts";
 
@@ -17,8 +17,8 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/detail/:id",
-    element: <App />,
+    // path: "/detail/:id",
+    // element: <App />,
     // loader: async ({ params }) => {
     //   const repos = await connexion.get(`/api/repos/${params.id}`);
     //   console.log("Loader", repos);
@@ -26,8 +26,8 @@ const router = createBrowserRouter([
     // },
   },
   {
-    path: "/administrateur/detail/:id",
-    element: <Detail />,
+    // path: "/administrateur/detail/:id",
+    // element: <Detail />,
     // loader: async ({ params }) => {
     //   const repos = await connexion.get(`/api/repos/${params.id}`);
     //   console.log("Loader", repos);

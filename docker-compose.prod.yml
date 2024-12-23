@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres
+    env_file: .env
+    restart: always
+    volumes:
+      - web-client-build:/web-client-build
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    # build: ./server
+    # To replace with the correct path of your server image
+    image: julienrichardwcs/bac-a-sable-demo-api
+    command: sh -c "npm run build && npm run prod"
+    expose:
+      - 4000
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+
+  client:
+    # build: ./client
+    # To replace with the correct path of your client image
+    image: julienrichardwcs/bac-a-sable-demo-client
+    command: sh -c "npm run build"
+    volumes:
+      - web-client-build:/app/build
+    environment:
+      - NODE_ENV=production
+
+  nginx:
+    image: nginx:1.21.3
+    depends_on:
+      - server
+      - client
+    restart: always
+    ports:
+      - ${GATEWAY_PORT}:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - web-client-build:/web-client-build
+      - ./logs:/var/log/nginx
+
+volumes:
+  web-client-build:
