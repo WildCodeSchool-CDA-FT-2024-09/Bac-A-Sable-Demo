@@ -1,14 +1,16 @@
 import { test, expect } from "@playwright/test";
 
-test("has title", async ({ page }) => {
+test("has title in the tab", async ({ page }) => {
   await page.goto("https://staging.bootcamp-cda-js.wilders.dev/");
 
   // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/TITRE/);
+  await expect(page).toHaveTitle(/Repo/);
 });
 
 test("Have a list of repo", async ({ page }) => {
-  await page.goto("https://staging.bootcamp-cda-js.wilders.dev/");
+  await page.goto("https://staging.bootcamp-cda-js.wilders.dev/", {
+    waitUntil: "networkidle",
+  });
 
   // Click the get started link.
   const articles = page.locator("article");
@@ -20,11 +22,14 @@ test("Have a list of repo", async ({ page }) => {
 
     expect(h3).toBeVisible();
 
-    const link = articles.nth(i).locator("a");
-    expect(link).toHaveText("Voir le repo");
-    const href = (await link.getAttribute("href")) as string;
-    await link.click();
+    const links = articles.nth(i).locator("a");
+    const navLink = links.nth(1);
+    expect(navLink).toHaveText("Plus d'info");
+    const href = (await navLink.getAttribute("href")) as string;
+    await navLink.click();
 
-    await expect(page).toHaveURL(href);
+    await expect(page).toHaveURL(
+      `https://staging.bootcamp-cda-js.wilders.dev${href}`
+    );
   }
 });

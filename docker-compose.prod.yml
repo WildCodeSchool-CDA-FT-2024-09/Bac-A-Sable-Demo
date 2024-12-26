@@ -27,6 +27,8 @@ services:
     # To replace with the correct path of your client image
     image: julienrichardwcs/bac-a-sable-demo-client:latest
     command: sh -c "npm run dev"
+    environment:
+      - VITE_API_URL=/graph
     volumes:
       - web-client-build:/app/build
 

@@ -1,0 +1,5 @@
+services:
+  e2e:
+    build: ./e2e
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["npm", "run", "test"]
