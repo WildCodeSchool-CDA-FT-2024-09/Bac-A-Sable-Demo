@@ -7,26 +7,11 @@ import RepoDard from "./components/RepoDard";
 import {
   useFullreposQuery,
   useLoginLazyQuery,
-  FullreposQuery,
 } from "./generated/graphql-types";
 
 function App() {
   const { loading, error, data } = useFullreposQuery();
   const [login] = useLoginLazyQuery();
-  // const [repos, setRepos] = useState<Repo[]>([]);
-
-  // useEffect(() => {
-  //   console.log("I'm the useEffect");
-  //   const fetchRepos = async () => {
-  //     try {
-  //       const repos = await connexion.get<Repo[]>("/api/repos");
-  //       setRepos(repos.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchRepos();
-  // }, []);
 
   const handleLogin = async () => {
     // useQuery...
@@ -41,6 +26,7 @@ function App() {
   if (loading) return <h1>Loading ...</h1>;
   if (error) return <p>Error</p>;
 
+  console.log(data);
   if (data) {
     return (
       <main className="container">
