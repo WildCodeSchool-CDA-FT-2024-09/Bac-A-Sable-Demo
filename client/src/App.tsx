@@ -7,10 +7,11 @@ import RepoDard from "./components/RepoDard";
 import {
   useFullreposQuery,
   useLoginLazyQuery,
+  FullreposQuery,
 } from "./generated/graphql-types";
 
 function App() {
-  const { loading, error, data, refetch } = useFullreposQuery();
+  const { loading, error, data } = useFullreposQuery();
   const [login] = useLoginLazyQuery();
   // const [repos, setRepos] = useState<Repo[]>([]);
 
@@ -36,29 +37,30 @@ function App() {
       },
     });
   };
-  console.log("Hello");
 
   if (loading) return <h1>Loading ...</h1>;
   if (error) return <p>Error</p>;
 
-  console.log(data);
   if (data) {
     return (
-      <main>
-        <h1>MON TITRE</h1>
-        <button type="button" onClick={handleLogin}>
-          LOGIN
-        </button>
-        {/**data.fullrepos.map((repo: Repo) => (
-          <RepoDard
-            name={repo.name}
-            url={repo.url}
-            id={repo.id}
-            isFavorite={repo.isFavorite}
-            langs={repo.langs}
-          />
-        ))*/}
-        <button type="button">Rafraichir</button>
+      <main className="container">
+        <header className="m-5">
+          <h1 className="text-center">MON TITRE</h1>
+          <button className="btn btn-dark" type="button" onClick={handleLogin}>
+            LOGIN
+          </button>
+        </header>
+        <section className="row">
+          {data.fullrepos.map((repo: Repo) => (
+            <RepoDard
+              name={repo.name}
+              url={repo.url}
+              id={repo.id}
+              isFavorite={repo.isFavorite}
+              key={repo.id}
+            />
+          ))}
+        </section>
       </main>
     );
   }
