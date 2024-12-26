@@ -40,7 +40,6 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ApolloProvider client={client}>
       <RouterProvider router={router} />
-      <p>"Hello World"</p>
     </ApolloProvider>
   </StrictMode>
 );
