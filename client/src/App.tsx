@@ -7,10 +7,11 @@ import RepoDard from "./components/RepoDard";
 import {
   useFullreposQuery,
   useLoginLazyQuery,
+  FullreposQuery,
 } from "./generated/graphql-types";
 
 function App() {
-  const { loading, error, data, refetch } = useFullreposQuery();
+  const { loading, error, data } = useFullreposQuery();
   const [login] = useLoginLazyQuery();
   // const [repos, setRepos] = useState<Repo[]>([]);
 
@@ -49,15 +50,15 @@ function App() {
         <button type="button" onClick={handleLogin}>
           LOGIN
         </button>
-        {/**data.fullrepos.map((repo: Repo) => (
+        {data.fullrepos.map((repo: Repo) => (
           <RepoDard
             name={repo.name}
             url={repo.url}
             id={repo.id}
             isFavorite={repo.isFavorite}
-            langs={repo.langs}
+            key={repo.id}
           />
-        ))*/}
+        ))}
         <button type="button">Rafraichir</button>
       </main>
     );
