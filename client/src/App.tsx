@@ -10,22 +10,8 @@ import {
 } from "./generated/graphql-types";
 
 function App() {
-  const { loading, error, data, refetch } = useFullreposQuery();
+  const { loading, error, data } = useFullreposQuery();
   const [login] = useLoginLazyQuery();
-  // const [repos, setRepos] = useState<Repo[]>([]);
-
-  // useEffect(() => {
-  //   console.log("I'm the useEffect");
-  //   const fetchRepos = async () => {
-  //     try {
-  //       const repos = await connexion.get<Repo[]>("/api/repos");
-  //       setRepos(repos.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchRepos();
-  // }, []);
 
   const handleLogin = async () => {
     // useQuery...
@@ -36,7 +22,6 @@ function App() {
       },
     });
   };
-  console.log("Hello");
 
   if (loading) return <h1>Loading ...</h1>;
   if (error) return <p>Error</p>;
@@ -44,21 +29,24 @@ function App() {
   console.log(data);
   if (data) {
     return (
-      <main>
-        <h1>MON TITRE</h1>
-        <button type="button" onClick={handleLogin}>
-          LOGIN
-        </button>
-        {/**data.fullrepos.map((repo: Repo) => (
-          <RepoDard
-            name={repo.name}
-            url={repo.url}
-            id={repo.id}
-            isFavorite={repo.isFavorite}
-            langs={repo.langs}
-          />
-        ))*/}
-        <button type="button">Rafraichir</button>
+      <main className="container">
+        <header className="m-5">
+          <h1 className="text-center">MON TITRE</h1>
+          <button className="btn btn-dark" type="button" onClick={handleLogin}>
+            LOGIN
+          </button>
+        </header>
+        <section className="row">
+          {data.fullrepos.map((repo: Repo) => (
+            <RepoDard
+              name={repo.name}
+              url={repo.url}
+              id={repo.id}
+              isFavorite={repo.isFavorite}
+              key={repo.id}
+            />
+          ))}
+        </section>
       </main>
     );
   }

@@ -2,8 +2,9 @@ name: Run All API TEST
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
-      - authorization
+      - staging
 
 jobs:
   tests-api:

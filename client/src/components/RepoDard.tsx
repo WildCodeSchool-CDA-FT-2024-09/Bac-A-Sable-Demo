@@ -3,12 +3,18 @@ import { Link } from "react-router-dom";
 
 function RepoDard({ name, url, id, isFavorite }: Repo) {
   return (
-    <>
-      <h2>{name}</h2>
-      <h3 className="card">{url}</h3>
-      <p>{isFavorite ? "Favory" : "Non Favory"}</p>
-      <Link to={`/detail/${id}`}>Plus d'info</Link>
-    </>
+    <article className="col-4">
+      <div className="m-2 card">
+        <h2>{name}</h2>
+        <h3>
+          Accéder au repo <a href={url}>Ici</a>
+        </h3>
+        <p>{isFavorite ? "Favory" : "Non Favory"}</p>
+        <Link className="btn btn-dark" to={`/detail/${id}`}>
+          Plus d'info
+        </Link>
+      </div>
+    </article>
   );
 }
 

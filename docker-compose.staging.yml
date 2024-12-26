@@ -14,7 +14,7 @@ services:
   api:
     # build: ./server
     # To replace with the correct path of your server image
-    image: julienrichardwcs/bac-a-sable-demo-api
+    image: julienrichardwcs/bac-a-sable-demo-api:latest
     command: sh -c "npm run full"
     env_file: .env
     expose:
@@ -25,8 +25,10 @@ services:
   client:
     # build: ./client
     # To replace with the correct path of your client image
-    image: julienrichardwcs/bac-a-sable-demo-client
+    image: julienrichardwcs/bac-a-sable-demo-client:latest
     command: sh -c "npm run dev"
+    environment:
+      - VITE_API_URL=/graph
     volumes:
       - web-client-build:/app/build
 
