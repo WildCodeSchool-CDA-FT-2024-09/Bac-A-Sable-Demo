@@ -78,7 +78,7 @@ import getSchema from "./schema";
 
   const { url } = await startStandaloneServer(server, {
     listen: { port: Number(PORT) },
-    context: async ({ req, res }) => {
+    context: async ({ req: Request, res: Response }) => {
       if (!req.headers.cookie) return { res };
 
       const { cdatokenexample } = setCookie.parse(
