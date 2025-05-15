@@ -10,7 +10,7 @@ const { POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_USER, POSTGRES_HOST } =
 
 // export const dataSource = new DataSource({
 //   type: "sqlite",
-//   database: `${BACKEND_FILE}`,
+//   database: `./src/db/db.sqlite`,
 //   entities: [Repo, Status, Lang],
 //   synchronize: true,
 // });

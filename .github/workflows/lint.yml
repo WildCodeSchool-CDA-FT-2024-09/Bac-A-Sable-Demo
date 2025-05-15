@@ -1,0 +1,45 @@
+name: dev
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - dev
+      - predeploy
+
+jobs:
+  lint:
+    name: Run linters + unit
+    runs-on: ubuntu-latest
+
+    permissions:
+      checks: write
+      contents: write
+
+    steps:
+      - name: Step 1 Check out git repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./node_modules
+            ./api/node_modules
+            ./client/node_modules
+          key: ${{ runner.os }}-${{  hashfiles('**/package-lock.json')}}
+
+      - name: Install package dependence
+        run: npm run fullinstall
+
+      - name: Run linters
+        run: npx lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}"
+
+      - name: Run Unit test
+        run: npm run test
+
+      - name: Run Integration test
+        run: npm run integration-test
